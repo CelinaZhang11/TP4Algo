@@ -1,5 +1,5 @@
-#Nom, matricule
-#Nom, matricule
+# Maltais, 20244617
+# Zhang, 20207461
 
 import sys
 
