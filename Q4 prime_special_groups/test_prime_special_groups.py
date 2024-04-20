@@ -33,8 +33,8 @@ def verifyAns(fileNameOutput, ExpectedAnswer):
 
 
 if __name__ == '__main__':
-    expected = [792, 2484, 3850, 6728]
-    valuesOfN = [1,2,3,6] #4,5,7 are kept secret :P
+    expected = [792,1838,2484,3146,4942,6576,9496,12652]
+    valuesOfN = [1,2,3,6,15,25,50,100] #
     for i in range(len(expected)):
         try:
             n = valuesOfN[i]

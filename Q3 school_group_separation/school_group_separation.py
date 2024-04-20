@@ -54,11 +54,93 @@ def write(fileName, content):
 #Return value : string with the output. If it is impossible, return "impossible".
 #               otherwise, return in a single string both ouput lines that contain
 #               two groups (students are separated by spaces and the two lines by a \n)
+
+
+
+def make_graph(students, pairs):
+    graph = {}
+    for student in students:
+        graph[student] = []
+
+    for pair in pairs:
+        graph[pair[0]].append(pair[1])
+        graph[pair[1]].append(pair[0])
+
+    return graph 
+
+
+def colorGraph(starting_point, graph, visited, group1, group2):
+
+    toVisit = []
+    toVisit.append(starting_point)
+    visited.add(starting_point)
+    colors = {}
+    colors[starting_point] = True
+    group1.append(starting_point)
+
+    while(len(toVisit) > 0):
+        nextVisit = []
+        
+        while(len(toVisit) > 0):
+
+            curr_node = toVisit.pop()
+
+            for voisin in graph[curr_node]:
+
+                if(voisin in visited):
+                    if colors[voisin] == colors[curr_node]:
+                        return False
+                else:
+                    nextVisit.append(voisin)
+                    colors[voisin] = not colors[curr_node]
+                    if colors[voisin]:
+                        group1.append(voisin)
+
+                    else:
+                        group2.append(voisin)
+                
+                visited.add(curr_node)
+        toVisit = nextVisit
+
+    return True
+
+
 def createGroups(students, pairs):
     # TODO : Compléter ici/Complete here...
     # Vous pouvez découper votre code en d'autres fonctions...
     # You may split your code in other functions...
-    return "impossible"
+    
+    graph = make_graph(students, pairs)
+    group1 = []
+    group2 = []
+    visited = set()
+
+    for student in students:
+        if student in visited:
+            pass
+        else:
+            if not colorGraph(student, graph, visited, group1, group2):
+                return "impossible"
+
+
+    if(len(group1) <= 1 and len(group2) == 0):
+        return "impossible"
+    
+    #Bouge qqun pour corner case
+    if(len(group2) == 0):
+        group2.append(group1.pop())
+
+    ourStr = ""
+    for elem in group1:
+        ourStr += elem + " "
+    ourStr += "\n"
+    for elem in group2:
+        ourStr += elem + " "
+
+    return ourStr
+    
+
+    
     
 
 
