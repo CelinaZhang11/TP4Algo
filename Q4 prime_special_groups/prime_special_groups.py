@@ -145,9 +145,16 @@ def getNthGroup(n):
     if(n >= 15):
         augment_factor = 1000
     if(n >= 26):
+        # Vraie borne
         augment_factor = 1111
+        # Pour etre safe !
+        augment_factor = 1200
     if(n >= 51):
+        # Vraie borne
         augment_factor = 1338
+        # Pour etre safe !
+        augment_factor = 1500
+
 
     currPrimes = [2]
     graph[2] = []
