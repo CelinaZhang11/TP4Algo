@@ -9,6 +9,7 @@
 # DO NOT SUBMIT ON STUDIUM. ONLY SUBMIT school_group_separation.py
 
 import school_group_separation
+import time
 
 def verifyAns(fileNameInput, fileNameOutput, ExpectedAnswer):
     fileOut = open(fileNameOutput,"r")
@@ -59,9 +60,18 @@ if __name__ == '__main__':
         try:
             fileIn = "input" + str(i) + ".txt"
             fileOut = "output" + str(i) + ".txt"
+
+            start_time = time.time()
+
+            
             school_group_separation.main([fileIn, fileOut])
             verifyAns(fileIn, fileOut, expected[i])
-            print("Test " + str(i) + " OK\n")
+            # Measure time after function call
+            end_time = time.time()
+
+            # Calculate the elapsed time
+            elapsed_time = end_time - start_time
+            print("Test " + str(i) + " Time ran: " + str(elapsed_time) +" OK\n")
         except Exception as e: 
             print("Test " + str(i) + " Fail")
             print(e)

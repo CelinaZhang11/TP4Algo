@@ -144,10 +144,10 @@ def getNthGroup(n):
     augment_factor = 500
     if(n >= 15):
         augment_factor = 1000
-    if(n >= 35):
-        augment_factor = 1500
-    if(n >= 50):
-        augment_factor = 2000
+    if(n >= 26):
+        augment_factor = 1111
+    if(n >= 51):
+        augment_factor = 1338
 
     currPrimes = [2]
     graph[2] = []
