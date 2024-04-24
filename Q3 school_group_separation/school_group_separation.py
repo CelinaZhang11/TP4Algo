@@ -106,10 +106,6 @@ def colorGraph(starting_point, graph, visited, group1, group2):
 
 
 def createGroups(students, pairs):
-    # TODO : Compléter ici/Complete here...
-    # Vous pouvez découper votre code en d'autres fonctions...
-    # You may split your code in other functions...
-    
     graph = make_graph(students, pairs)
     group1 = []
     group2 = []
@@ -138,11 +134,6 @@ def createGroups(students, pairs):
         ourStr += elem + " "
 
     return ourStr
-    
-
-    
-    
-
 
 #Normalement, vous ne devriez pas avoir à modifier
 #Normaly, you shouldn't need to modify

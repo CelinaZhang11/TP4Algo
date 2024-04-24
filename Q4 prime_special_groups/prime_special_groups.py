@@ -37,7 +37,7 @@ def isPrime(n):
     return True
 
 
-#Va augmenter le nombre de nodes dans le graph de +augmentation
+# Va augmenter le nombre de nodes dans le graph de +augmentation
 def AugmentGraph(graph, augmentation, existing_members):
     
     initial_length = len(existing_members)
@@ -46,20 +46,20 @@ def AugmentGraph(graph, augmentation, existing_members):
     if len(existing_members) != 0:
         lastest_member = existing_members[-1]
     
-    #Number of added nodes
+    # Number of added nodes
     added = 0
     while(added < augmentation):
         lastest_member += 1
         if(isPrime(lastest_member)):
             added += 1
-            #On ajoute le node au membres existant et au graph
+            # On ajoute le node au membres existant et au graph
             existing_members.append(lastest_member)
             graph[lastest_member] = []
         
     nouvelles_connections = []
     # Will form pairs and add to graph
     for i in range(len(existing_members)):
-        #On evite de reesayer les match deja faits
+        # On evite de reesayer les match deja faits
         for j in range(i + 1, len(existing_members)):
             if(isPrime(int(str(existing_members[i]) + str(existing_members[j])))):
                 if(isPrime(int(str(existing_members[j]) + str(existing_members[i])))):
@@ -69,7 +69,6 @@ def AugmentGraph(graph, augmentation, existing_members):
                     nouvelles_connections.append(existing_members[j])
 
     return nouvelles_connections
-
 
 def trouverClique42(graph, start, curr_members, groupes, sommes):
     
@@ -89,12 +88,8 @@ def trouverClique42(graph, start, curr_members, groupes, sommes):
             obj = curr_members + [neighbor]  # Create a copy of curr_members and add neighbor
             trouverClique4(graph, neighbor, obj, groupes, sommes)
 
-
 def test():
     graph = {}
-
-    
-
 
 def trouverClique4(graph, start, curr_members, groupes, sommes, sommesDistincte):
     
