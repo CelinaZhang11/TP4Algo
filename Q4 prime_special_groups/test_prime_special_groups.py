@@ -21,6 +21,7 @@
 # not very powerful computer
 
 import prime_special_groups
+import time
 
 def verifyAns(fileNameOutput, ExpectedAnswer):
     fileOut = open(fileNameOutput,"r")
@@ -39,9 +40,17 @@ if __name__ == '__main__':
         try:
             n = valuesOfN[i]
             fileOut = "output" + str(n) + ".txt"
+            start_time = time.time()
             prime_special_groups.main([n, fileOut])
             verifyAns(fileOut, expected[i])
-            print("Test with n = " + str(n) + " OK\n")
+
+            # Measure time after function call
+            end_time = time.time()
+
+            # Calculate the elapsed time
+            elapsed_time = end_time - start_time
+
+            print("Test with n = " + str(n) + "    Temp d'exec " + str(elapsed_time)[:9] + " OK\n")
         except Exception as e: 
             print("Test with n = " + str(n) + " Fail")
             print(e)

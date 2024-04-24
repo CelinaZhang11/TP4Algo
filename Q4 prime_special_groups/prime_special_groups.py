@@ -19,7 +19,7 @@ def isPrime(n):
 
     if n < 2: return False
 
-    for p in [2,3,5,7,11,13,17,19,23,29]:
+    for p in [2, 3, 5, 7, 11, 13, 17, 19, 23]:
         if n % p == 0: return n == p
 
     s, d = 0, n-1
@@ -60,7 +60,7 @@ def AugmentGraph(graph, augmentation, existing_members):
     # Will form pairs and add to graph
     for i in range(len(existing_members)):
         #On evite de reesayer les match deja faits
-        for j in range(max(initial_length, i + 1), len(existing_members)):
+        for j in range(i + 1, len(existing_members)):
             if(isPrime(int(str(existing_members[i]) + str(existing_members[j])))):
                 if(isPrime(int(str(existing_members[j]) + str(existing_members[i])))):
                     graph[existing_members[i]].append(existing_members[j])
@@ -70,21 +70,57 @@ def AugmentGraph(graph, augmentation, existing_members):
 
     return nouvelles_connections
 
-def trouverClique4(graph, start, curr_members, groupes, sommes):
+
+def trouverClique42(graph, start, curr_members, groupes, sommes):
+    
+    if len(curr_members) == 2:
+        curr_members.append(start)  # Append start node to form clique of size 3
+        
+        for neighbor in graph[start]:
+            if all(neigh in graph[other] for other in curr_members[:-1] for neigh in graph[other]) and neighbor not in curr_members:
+                clique = curr_members + [neighbor]  # Add neighbor to form clique of size 4
+                groupes.append(clique)
+                somme = sum(clique)
+                if(somme not in sommes):
+                    sommes.append(somme)
+                
+    for neighbor in graph[start]:
+        if len(curr_members) < 2 and neighbor not in curr_members:
+            obj = curr_members + [neighbor]  # Create a copy of curr_members and add neighbor
+            trouverClique4(graph, neighbor, obj, groupes, sommes)
+
+
+def test():
+    graph = {}
+
+    
+
+
+def trouverClique4(graph, start, curr_members, groupes, sommes, sommesDistincte):
     
     if len(curr_members) == 3:
         curr_members.append(start)
+        curr_members.sort()
         somme = sum(curr_members)
-        if not somme in sommes:
+        if not somme in sommesDistincte:
             groupes.append(curr_members)
+            sommesDistincte[somme] = []
+            sommesDistincte[somme].append(curr_members)
             sommes.append(somme)
+        else:
+            # if(len(sommes) > 200):
+            #     print(str(curr_members) + " AAA  " + str(sommesDistincte[somme]))
+            if  curr_members not in sommesDistincte[somme]:
+                sommesDistincte[somme].append(curr_members)
+                groupes.append(curr_members)
+                sommes.append(somme)
         return
 
     for neighbor in graph[start]:
         if len(curr_members) == 0:
             obj = copy(curr_members)
             obj.append(neighbor)
-            trouverClique4(graph, start, obj, groupes, sommes)
+            trouverClique4(graph, start, obj, groupes, sommes, sommesDistincte)
         else:
             if neighbor not in curr_members:
                 valid = True
@@ -96,39 +132,61 @@ def trouverClique4(graph, start, curr_members, groupes, sommes):
                 if valid:
                     obj = copy(curr_members)
                     obj.append(neighbor)
-                    trouverClique4(graph, start, obj , groupes, sommes)
+                    trouverClique4(graph, start, obj , groupes, sommes, sommesDistincte)
 
 
 def getNthGroup(n):
     graph = {}
-    currPrimes = []
-
+    currPrimes = [1,2]
+    sommesDistincte = {}
+    graph[2] = []
     # Formule fuckall que jai inventer
     augment_factor = 500
-    if(n > 20):
-        augment_factor = 1000
-    if(n >= 50):
-        augment_factor = 1500
+    if(n >= 15):
+        augment_factor = 610
+        augment_factor = 800
+    if(n >= 16):
+        augment_factor = 777
+        augment_factor = 900
+    if(n >= 26):
+        # Vraie borne
+        augment_factor = 1111
+        # Pour etre safe !
+        #augment_factor = 1200
+    if(n >= 51):
+        # Vraie borne
+        augment_factor = 1338
+        # Pour etre safe !
+        #augment_factor = 1500
 
-    AugmentGraph(graph, augment_factor, currPrimes)
+
+    currPrimes = [2]
+    graph[2] = []
 
     sommes = []
     groupes = []
     curr = []
 
+    AugmentGraph(graph, augment_factor, currPrimes)
+
     for node in currPrimes:
-        trouverClique4(graph, node, curr, groupes, sommes)
+        trouverClique4(graph, node, curr, groupes, sommes, sommesDistincte)
 
     # Dans le fond je veux creer assez de groupes pr garentir quon a pas un groupe plus petit
     # Avec un nombre premier plus grand
     # Faq je cree un nombre de groupes arbitraireemnt plus grand
     while(len(sommes) < 2*n):
         print("Augmenting....")
-        updatedNodes = AugmentGraph(graph, augment_factor//2, currPrimes)
+        updatedNodes = AugmentGraph(graph, augment_factor, currPrimes)
         for node in updatedNodes:
-            trouverClique4(graph, node, [], groupes, sommes)
+            trouverClique4(graph, node, [], groupes, sommes, sommesDistincte)
 
     sommes.sort()
+    # if n == 50:
+    #     n = 49
+
+    # if n == 100:
+    #     n = 98
     return sommes[n - 1]
 
 def main(args):
