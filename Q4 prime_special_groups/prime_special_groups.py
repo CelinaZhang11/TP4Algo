@@ -143,17 +143,21 @@ def getNthGroup(n):
     # Formule fuckall que jai inventer
     augment_factor = 500
     if(n >= 15):
-        augment_factor = 1000
+        augment_factor = 610
+        augment_factor = 800
+    if(n >= 16):
+        augment_factor = 777
+        augment_factor = 900
     if(n >= 26):
         # Vraie borne
         augment_factor = 1111
         # Pour etre safe !
-        augment_factor = 1200
+        #augment_factor = 1200
     if(n >= 51):
         # Vraie borne
         augment_factor = 1338
         # Pour etre safe !
-        augment_factor = 1500
+        #augment_factor = 1500
 
 
     currPrimes = [2]
